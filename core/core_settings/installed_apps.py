@@ -1,0 +1,5 @@
+INSTALLEDAPPS = [
+    'corsheaders', 
+    'users',
+    'pyns'
+]
