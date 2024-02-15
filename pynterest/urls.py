@@ -11,6 +11,7 @@ VERSION = "v1"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include("pyns.urls")),
     
     # API URLS
     # path(f"api/{VERSION}/", api.urls),
