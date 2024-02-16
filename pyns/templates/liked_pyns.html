@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    
+
+<div class="col-12 row my-5 py-5 mx-auto">
+    {% if liked_pyns|length > 0 %}
+    <h2>Your Liked Pyns</h2>
+    
+    {% for liked_pyn in liked_pyns %}
+
+    <div class=" col-lg-2 col-md-4 col-sm-6 mt-3 main-container">
+        <div class="d-flex align-items-center image-container content">
+            <img src="{{liked_pyn.pyn.image.url}}" class="img-fluid rounded" alt="" onclick="downloadImage(this)">
+        </div>
+        <h5 class="d-flex justify-content-start mt-2 overlay text-white small">
+            {{liked_pyn.pyn.title}} 
+        </h5>
+        <div class="d-flex justify-content-start mt-2 overlay small">
+            <a href="{% url 'user_pyns' id=liked_pyn.pyn.user.id %}" class="text-secondary text-decoration-none overflow-hidden" onmouseover="this.className='text-danger'" onmouseout="this.className='text-secondary'">{{liked_pyn.pyn.user}}</a>
+        </div>
+    </div>
+
+
+    <script>
+        function downloadImage(button) {
+          // Get the image source
+          var imageUrl = button.parentNode.previousElementSibling.src;
+          
+          // Create a temporary anchor element
+          var anchor = document.createElement('a');
+          anchor.href = imageUrl;
+          anchor.download = 'downloaded_image.jpg';
+          
+          // Programmatically trigger a click on the anchor element
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+        }
+    </script>
+
+    {% endfor %}
+
+    {% else %}
+    <h2>Sorry. You have no Liked Pyns</h2>
+    {% endif %}
+
+</div>
+
+  
+
+{% endblock content %}
+    

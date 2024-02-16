@@ -1,0 +1,85 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pynterest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body{
+            max-height: 100vh;
+            max-width: 100vw;
+            font: ubuntu-regular;
+        }
+        .h-full{
+            height: 100vh;
+        }
+
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="d-flex justify-content-center align-items-center col-12 h-full">
+        <div class="col-9 m-auto bg-white rounded-3 text-center pt-5">
+            <div class="col-10 m-auto">
+
+                <h4 class="text-dark">Register Account</h4>
+                <p class="text-secondary mb-3">Get your free account now. <strong class="text-danger">Pynterest</strong></p>
+
+                {% if error_message %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error: </strong> {{ error_message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                <form action="{% url 'register' %}" method="post" class="row m-1">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <div class="mb-1 col-12 col-lg-6">
+                        <label for="email" class="form-label float-start text-secondary"><strong>Email:</strong></label>
+                        <input type="email" class="form-control form-control-sm " name="email" id="email" aria-describedby="helpId" placeholder="Enter your Email address">
+                    </div>
+
+                    <div class="mb-1 col-12 col-lg-6">
+                        <label for="username" class="form-label float-start text-secondary"><strong>Username:</strong></label>
+                        <input type="text" class="form-control form-control-sm " name="username" id="username" aria-describedby="helpId" placeholder="Choose a username">
+                    </div>
+
+                    <div class="mb-1 col-12 col-lg-6">
+                        <label for="password1" class="form-label float-start text-secondary"><strong>Password:</strong></label>
+                        <input type="password" class="form-control form-control-sm " name="password1" id="password1" aria-describedby="helpId" placeholder="Choose a password">
+                    </div>
+
+                    <div class="mb-1 col-12 col-lg-6">
+                        <label for="password2" class="form-label float-start text-secondary"><strong>Confirm Password:</strong></label>
+                        <input type="password" class="form-control form-control-sm " name="password2" id="password2" aria-describedby="helpId" placeholder="Retype password">
+                    </div>
+
+                    <div class="mt-3 col-6 justify-content-center">
+                        <input name="submit" id="submit" class="btn btn-danger col-12 p-1 mt-3 btn-sm form-control form-control-sm" type="submit" value="Register">
+                    </div>
+                </form>
+
+                <p class="text-secondary">Already have an account? <strong><a href="{% url 'login' %}" class="text-success text-decoration-none">Login</a></strong></p>
+            </div>
+            <p class="m-5"></p>
+            <p class="text-dark">&#169; 2023 Pynterest. Crafted with &#10084; by <strong><a href="https://www.github.com/anochiwaalfred" target="_blank" class="text-decoration-none text-success">Anochiwa Alfred</a></strong></p>
+        </div>
+    </div>
+
+      
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.esm.min.js" integrity="sha512-9IAuCQeqbsF/CP2TJ7avKUW9/+dODxnKuPyj42O++oHkjGuuqj3ZLzTFtCihuRjb5G/aGefieF21ZoRG5kwzwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</body>
+</html>

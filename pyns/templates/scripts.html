@@ -1,0 +1,62 @@
+
+
+<script>
+    function savePyn(pynId) {
+        fetch(`/save/${pynId}/`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // Add this header to identify AJAX requests
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the view
+            console.log(data.success_message);
+            // You can perform any additional actions based on the response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle any errors that occur during the request
+        });
+    }
+
+    function removeSavedPyn(pynId) {
+      fetch(`/remove/${pynId}/`, {
+          method: 'GET',
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest' // Add this header to identify AJAX requests
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          // Handle the response from the view
+          console.log(data.success_message);
+          location.reload();
+          // You can perform any additional actions based on the response
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          // Handle any errors that occur during the request
+      });
+  }
+
+    function likePyn(pynId) {
+      fetch(`/like/${pynId}/`, {
+          method: 'GET',
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest' // Add this header to identify AJAX requests
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          // Handle the response from the view
+          console.log(data.success_message);
+          location.reload();
+          // You can perform any additional actions based on the response
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          // Handle any errors that occur during the request
+      });
+  }
+    </script>

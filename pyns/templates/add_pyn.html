@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <br><br><br><br><br><br>
+<div class="d-flex justify-content-center align-items-center col-12 h-full">
+    <div class="col-md-9 col-sm-11 col-lg-5 m-auto rounded-3 text-center pt-3 border">
+    <h2 class="text-white">Add Pyn</h2>
+
+    <form action="{% url 'add' %}" method="post" class="row m-1" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next_url }}">
+            <div class="mb-3">
+                <label for="title" class="form-label float-start text-secondary"><strong>Title:</strong></label>
+                <div class="input-group">
+                    <input type="text" class="form-control " name="title" id="title" aria-describedby="inputGroupPrepend3" required placeholder="">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a title.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-1 col-12">
+                <label for="image" class="form-label float-start text-secondary"><strong>Image:</strong></label>
+                <input type="file" class="form-control form-control-sm" name="image" id="image">
+            </div>
+
+
+            <div class="my-3 col-12">
+                <input name="submit" id="submit" class="btn btn-sm btn-danger col-lg-4 col-6 float-end p-2" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+    
