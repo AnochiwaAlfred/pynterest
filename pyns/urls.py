@@ -13,10 +13,13 @@ urlpatterns = [
     path('logout/', views.logoutView, name='logout'),
     path('register/', views.registerView, name='register'),
     path('add/', views.addPyn, name='add'),
+    path('add/bulk', views.addPynBulk, name='add_bulk'),
     path('user/<int:id>/', views.userPyns, name='user_pyns'),
     path('user/<int:id>/saved', views.userSavedPyns, name='saved_pyns'),
     path('user/<int:id>/liked', views.userLikedPyns, name='liked_pyns'),
     path('save/<uuid:id>/', views.savePyn, name='save_pyn'),
     path('remove/<uuid:id>/', views.removePyn, name='remove_pyn'),
     path('like/<uuid:id>/', views.likePyn, name='like_pyn'),
+    path('details/<uuid:id>/', views.pynDetails, name='pyn_details'),
+    path('search/', views.search, name='search'),
 ]

@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from plugins.code_generator import generateUniqueId
@@ -32,6 +33,7 @@ class CustomUserManager(UserManager):
 CUSTOM_USER_DISPLAY = ['id', 'code', 'email', 'username', 'is_superuser']
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     # DEFAULT FIELD
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(("email address"), unique=True)
     password = models.CharField(max_length=200, null=True, blank=True)
     username = models.CharField(max_length=200, null=False, blank=False, unique=True)

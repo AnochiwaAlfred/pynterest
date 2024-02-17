@@ -11,14 +11,14 @@
     {% for saved_pyn in saved_pyns %}
 
     <div class=" col-lg-2 col-md-4 col-sm-6 mt-3 main-container ">
-        <div class="d-flex align-items-center image-container content">
-            <img src="{{saved_pyn.pyn.image.url}}" class="img-fluid rounded" alt="" onclick="downloadImage(this)">
-        </div>
+        <a href="{% url 'pyn_details' id=saved_pyn.pyn.id %}" class="d-flex align-items-center image-container content">
+            <img src="{{saved_pyn.pyn.image.url}}" class="img-fluid rounded" alt="" >
+        </a>
         <h5 class="d-flex justify-content-start mt-2 overlay text-white small">
             {{saved_pyn.pyn.title}} 
         </h5>
         <div class="d-flex justify-content-start mt-2 overlay small">
-            <a href="{% url 'user_pyns' id=saved_pyn.pyn.user.id %}" class="text-secondary text-decoration-none overflow-hidden" onmouseover="this.className='text-danger'" onmouseout="this.className='text-secondary'">{{pyn.user}}</a>
+            <a href="{% url 'user_pyns' id=saved_pyn.pyn.user.id %}" class="text-secondary text-decoration-none overflow-hidden" onmouseover="this.className='text-danger text-decoration-none overflow-hidden'" onmouseout="this.className='text-secondary text-decoration-none overflow-hidden'">{{saved_pyn.pyn.user}}</a>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2 overlay small">
             <button onclick="removeSavedPyn('{{ saved_pyn.pyn.id }}')" type="button" class="btn col-6 btn-danger btn-sm">Remove</button>
@@ -27,22 +27,7 @@
     </div>
 
 
-    <script>
-        function downloadImage(button) {
-          // Get the image source
-          var imageUrl = button.parentNode.previousElementSibling.src;
-          
-          // Create a temporary anchor element
-          var anchor = document.createElement('a');
-          anchor.href = imageUrl;
-          anchor.download = 'downloaded_image.jpg';
-          
-          // Programmatically trigger a click on the anchor element
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-        }
-    </script>
+
 
     {% endfor %}
 

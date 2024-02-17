@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <br><br><br><br><br><br>
+<div class="d-flex justify-content-center align-items-center col-12 h-full">
+    <div class="col-md-9 col-sm-11 col-lg-5 m-auto rounded-3 text-center pt-3 border">
+    <h3 class="text-white">Add Bulk Pyn</h3>
+
+    <form action="{% url 'add_bulk' %}" method="post" class="row m-1" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next_url }}">
+
+            <div class="mb-1 col-12">
+                <label for="zip_file" class="form-label float-start text-secondary"><strong>Zip File:</strong></label>
+                <input type="file" class="form-control form-control-sm" name="zip_file" id="zip_file" required>
+                <small class="form-text  float-start">Note: Zip file must contain images with clear titles.</small>
+            </div>
+
+
+            <div class="my-3 col-12">
+                <input name="submit" id="submit" class="btn btn-sm btn-danger col-lg-4 col-6 float-end" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+    

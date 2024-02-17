@@ -6,7 +6,7 @@
     <br><br><br><br><br><br>
 <div class="d-flex justify-content-center align-items-center col-12 h-full">
     <div class="col-md-9 col-sm-11 col-lg-5 m-auto rounded-3 text-center pt-3 border">
-    <h2 class="text-white">Add Pyn</h2>
+    <h3 class="text-white">Add Pyn</h3>
 
     <form action="{% url 'add' %}" method="post" class="row m-1" enctype="multipart/form-data">
             {% csrf_token %}
@@ -26,12 +26,13 @@
 
             <div class="mb-1 col-12">
                 <label for="image" class="form-label float-start text-secondary"><strong>Image:</strong></label>
-                <input type="file" class="form-control form-control-sm" name="image" id="image">
+                <input type="file" class="form-control form-control-sm" name="image" id="image" required>
             </div>
 
 
             <div class="my-3 col-12">
-                <input name="submit" id="submit" class="btn btn-sm btn-danger col-lg-4 col-6 float-end p-2" type="submit" value="Submit">
+                <input name="submit" id="submit" class="btn btn-sm btn-danger col-lg-4 col-6 float-end" type="submit" value="Submit">
+                <a href="{% url 'add_bulk' %}" class="btn btn-sm btn-outline-info col-lg-4 col-6 float-end me-2">Add Bulk</a>
             </div>
         </form>
     </div>
