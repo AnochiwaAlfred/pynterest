@@ -122,7 +122,7 @@ def savePyn(request, id):
             if not saved.exists():
                 saved_pyn = SavedPyn.objects.create(user_id=request.user.id, pyn_id=id)
                 saved_pyn.save()
-                return JsonResponse({'success_message': 'Pyn Saved'})
+            return JsonResponse({'success_message': 'Pyn Saved'})
     except Exception as e:
         return JsonResponse({'error': str(e)})
 def removePyn(request, id):
@@ -238,3 +238,19 @@ def search(request):
             return redirect('/')
     except Exception as e:
         return HttpResponse(str(e))
+    
+
+def deletePyn(request, id):
+    context={}
+    try:
+        if not request.user.id:
+            return render(request, 'login.html', context=context)
+        else:
+            pyn = Pyn.objects.filter(id=id)
+            if pyn[0].user == request.user:
+                pyn.delete()
+                return JsonResponse({'success_message': 'Pyn Deleted'})
+            else:
+                return JsonResponse({'error_message': 'User unauthorized to delete Pyn'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})

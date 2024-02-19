@@ -5,7 +5,8 @@
     
 
 <div class="col-12 row my-5 py-5 mx-auto">
-    {% if saved_pyns|length > 0 %}
+  <div id="messages" class="col-11 m-auto"></div>
+  {% if saved_pyns|length > 0 %}
     <h2>Your Saved Pyns</h2>
     
     {% for saved_pyn in saved_pyns %}

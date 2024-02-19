@@ -5,7 +5,8 @@
     
 
 <div class="col-12 row my-5 py-5 mx-auto">
-    {% if liked_pyns|length > 0 %}
+  <div id="messages" class="col-11 m-auto"></div>
+  {% if liked_pyns|length > 0 %}
     <h2>Your Liked Pyns</h2>
     
     {% for liked_pyn in liked_pyns %}

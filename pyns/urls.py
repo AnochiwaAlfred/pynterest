@@ -22,4 +22,5 @@ urlpatterns = [
     path('like/<uuid:id>/', views.likePyn, name='like_pyn'),
     path('details/<uuid:id>/', views.pynDetails, name='pyn_details'),
     path('search/', views.search, name='search'),
+    path('delete/<uuid:id>/', views.deletePyn, name='delete_pyn'),
 ]

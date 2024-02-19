@@ -5,7 +5,8 @@
     
 
 <div class="col-12 row my-5 py-5 mx-auto">
-    {% for pyn in pyns %}
+  <div id="messages" class="col-11 m-auto"></div>
+  {% for pyn in pyns %}
 
     <div class=" col-lg-2 col-md-4 col-sm-6 mt-3 main-container">
         <a href="{% url 'pyn_details' id=pyn.id %}" class="d-flex align-items-center image-container content">
