@@ -30,23 +30,25 @@ def index(request, pagename=None, id=None):
 
 @csrf_exempt
 def loginView(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            login_url = request.POST.get('next', '/') # get next page
-            return redirect("index")
-        
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                login_url = request.POST.get('next', '/') # get next page
+                return redirect("index")
+            
+            else:
+                print('Wrong Username or Password')
+                return render(request, 'login.html', context={'error_message': 'Invalid login credentials'})
         else:
-            print('Wrong Username or Password')
-            return render(request, 'login.html', context={'error_message': 'Invalid login credentials'})
-    else:
-        next_url = request.GET.get('next', '/') # get next page
-        context = {'next_url':next_url}
-        return render(request, 'login.html', context)
-    
+            next_url = request.GET.get('next', '/') # get next page
+            context = {'next_url':next_url}
+            return render(request, 'login.html', context)
+    except Exception as e:
+        return HttpResponse(str(e))
 
 @csrf_exempt
 @login_required
@@ -56,52 +58,58 @@ def logoutView(request):
     except:
         pass
     return render(request, 'login.html')
+
 @csrf_exempt
 def registerView(request):
-    if request.method == 'POST':
-        
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        userCheck = CustomUser.objects.filter(Q(username=username) | Q(email=email))
-        if userCheck.exists():
-            print('User Already Exists')
-            return render(request, 'register.html', context={'error_message': 'User Already Exists'})
+    try:
+        if request.method == 'POST':
+            
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            userCheck = CustomUser.objects.filter(Q(username=username) | Q(email=email))
+            if userCheck.exists():
+                print('User Already Exists')
+                return render(request, 'register.html', context={'error_message': 'User Already Exists'})
+            else:
+                if password1==password2:
+                    password = password1
+                    newUser = CustomUser.objects.create_user(username=username, password=password, email=email)
+                    newUser.save()
+                    login(request, newUser)
+                    return redirect('/')
+                else: 
+                    print('Password Mismatch')
+                    return render(request, 'register.html', context={'error_message': 'Password Mismatch'})
         else:
-            if password1==password2:
-                password = password1
-                newUser = CustomUser.objects.create_user(username=username, password=password, email=email)
-                newUser.save()
-                login(request, newUser)
-                return redirect('/')
-            else: 
-                print('Password Mismatch')
-                return render(request, 'register.html', context={'error_message': 'Password Mismatch'})
-    else:
-        next_url = request.GET.get('next', '/') # get next page
-        context = {'next_url':next_url}
-        return render(request, 'register.html', context)
-    
+            next_url = request.GET.get('next', '/') # get next page
+            context = {'next_url':next_url}
+            return render(request, 'register.html', context)
+    except Exception as e:
+        return HttpResponse(str(e))
 @csrf_exempt
 def addPyn(request):
-    if request.method == 'POST':
-        
-        title = request.POST.get('title')
-        image = request.FILES.get('image')
-        user = request.user
-        # tags = request.POST.get('tags')
-        if request.user.id:
-            pyn = Pyn.objects.create(title=title, image=image, user=user)
-            pyn.save()
+    try:
+        if request.method == 'POST':
             
-            return redirect('/', context={'success_message': 'Image Added Successfully'})
-        else: 
-            return render(request, 'add_pyn.html', context={'error_message': 'Invalid User'})
-    else:
-        next_url = request.GET.get('next', '/') # get next page
-        context = {'next_url':next_url}
-        return render(request, 'add_pyn.html', context)
+            title = request.POST.get('title')
+            image = request.FILES.get('image')
+            user = request.user
+            # tags = request.POST.get('tags')
+            if request.user.id:
+                pyn = Pyn.objects.create(title=title, image=image, user=user)
+                pyn.save()
+                
+                return redirect('/', context={'success_message': 'Image Added Successfully'})
+            else: 
+                return render(request, 'add_pyn.html', context={'error_message': 'Invalid User'})
+        else:
+            next_url = request.GET.get('next', '/') # get next page
+            context = {'next_url':next_url}
+            return render(request, 'add_pyn.html', context)
+    except Exception as e:
+        return HttpResponse(str(e))
 def userPyns(request, id):
     context = {}
     try:
@@ -179,34 +187,37 @@ def userLikedPyns(request, id):
     
 @csrf_exempt
 def addPynBulk(request):
-    if request.method == 'POST':
-        zip_file = request.FILES.get('zip_file')
-        if zip_file:
-            if request.user.id:
-                with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                    temp_dir = 'temp_extracted_images'
-                    os.makedirs(temp_dir, exist_ok=True)
-                    zip_ref.extractall(temp_dir)
-                    
-                    for filename in os.listdir(temp_dir):
-                        title = os.path.splitext(filename)[0]
-                        image_path = os.path.join(temp_dir, filename)
-                        image_field_file = ImageFile(open(image_path, "rb"))
-                        print(image_field_file)
-                        pyn = Pyn.objects.create(title=title, image=image_field_file, user=request.user)
-                        pyn.save()
-                # os.rmdir(temp_dir)
-                shutil.rmtree(temp_dir)
-                return redirect('/', context={'success_message': 'Images Added Successfully'})
+    try:
+        if request.method == 'POST':
+            zip_file = request.FILES.get('zip_file')
+            if zip_file:
+                if request.user.id:
+                    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+                        temp_dir = 'temp_extracted_images'
+                        os.makedirs(temp_dir, exist_ok=True)
+                        zip_ref.extractall(temp_dir)
+                        
+                        for filename in os.listdir(temp_dir):
+                            title = os.path.splitext(filename)[0]
+                            image_path = os.path.join(temp_dir, filename)
+                            image_field_file = ImageFile(open(image_path, "rb"))
+                            print(image_field_file)
+                            pyn = Pyn.objects.create(title=title, image=image_field_file, user=request.user)
+                            pyn.save()
+                    # os.rmdir(temp_dir)
+                    shutil.rmtree(temp_dir)
+                    return redirect('/', context={'success_message': 'Images Added Successfully'})
+                else: 
+                    return render(request, 'add_pyn_bulk.html', context={'error_message': 'Invalid User'})
             else: 
-                return render(request, 'add_pyn_bulk.html', context={'error_message': 'Invalid User'})
-        else: 
-            return render(request, 'add_pyn_bulk.html', context={'error_message': 'No zip file uploaded'})
-    else:
-        next_url = request.GET.get('next', '/') # get next page
-        context = {'next_url':next_url}
-        return render(request, 'add_pyn_bulk.html', context)
-    
+                return render(request, 'add_pyn_bulk.html', context={'error_message': 'No zip file uploaded'})
+        else:
+            next_url = request.GET.get('next', '/') # get next page
+            context = {'next_url':next_url}
+            return render(request, 'add_pyn_bulk.html', context)
+    except Exception as e:
+            return HttpResponse(str(e))
+        
     
 
 def pynDetails(request, id):
