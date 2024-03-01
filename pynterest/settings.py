@@ -73,7 +73,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pynterest.wsgi.application'
+if config("ENVIRONMENT") == "development":
+    WSGI_APPLICATION = 'pynterest.wsgi.application'
+
+elif config("ENVIRONMENT") == "production":
+    WSGI_APPLICATION = 'vercel_app.wsgi.app'
 
 
 # Database
